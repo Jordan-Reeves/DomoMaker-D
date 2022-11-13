@@ -4,6 +4,7 @@ const _ = require('underscore');
 let DomoModel = {};
 
 const setName = (name) => _.escape(name).trim();
+const setColor = (color) => _.escape(color).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -16,6 +17,12 @@ const DomoSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     required: true,
+  },
+  color: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setColor,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -39,7 +46,16 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age').lean().exec(callback);
+  return DomoModel.find(search).select('name age color').lean().exec(callback);
+};
+
+DomoSchema.statics.deleteDomo = (domoID, callback) => {
+  const search = {
+    // convert the string ownerId to an object id
+    _id: mongoose.Types.ObjectId(domoID),
+  };
+
+  return DomoModel.deleteOne(search).exec(callback);
 };
 
 DomoModel = mongoose.model('Domo', DomoSchema);
