@@ -49,7 +49,7 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
   return DomoModel.find(search).select('name age color').lean().exec(callback);
 };
 
-DomoSchema.statics.deleteDomo = (domoID, callback) => {
+DomoSchema.statics.deleteDomoByID = (domoID, callback) => {
   const search = {
     // convert the string ownerId to an object id
     _id: mongoose.Types.ObjectId(domoID),

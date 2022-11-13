@@ -40,7 +40,7 @@ const getDomos = (req, res) => {
 };
 
 const deleteDomo = (req, res) => {
-  Domo.deleteDomo(req.body.domoID, (err) => {
+  Domo.deleteDomoByID(req.body.domoID, (err) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'An error has occured!' });
